@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TMS.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using TMS.Infrastructure.Data;
 namespace TMS.Infrastructure.Migrations
 {
     [DbContext(typeof(TMSDbContext))]
-    partial class TMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221227210427_foreignkeys")]
+    partial class foreignkeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -320,8 +322,16 @@ namespace TMS.Infrastructure.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<int>("LanguageID")
+                        .HasColumnType("int");
 
                     b.Property<int>("ReferenceTypeID")
                         .HasColumnType("int");
@@ -335,49 +345,6 @@ namespace TMS.Infrastructure.Migrations
                     b.HasKey("ReferenceID");
 
                     b.ToTable("Reference");
-                });
-
-            modelBuilder.Entity("TMS.Domain.Entities.ReferenceLanguage", b =>
-                {
-                    b.Property<int>("ReferenceLanguageID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReferenceLanguageID"), 1L, 1);
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("LanguageID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReferenceID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ReferenceLanguageID");
-
-                    b.HasIndex("LanguageID");
-
-                    b.HasIndex("ReferenceID");
-
-                    b.ToTable("ReferenceLanguage");
                 });
 
             modelBuilder.Entity("TMS.Domain.Entities.ReferenceType", b =>
@@ -419,49 +386,6 @@ namespace TMS.Infrastructure.Migrations
                     b.HasKey("ReferenceTypeID");
 
                     b.ToTable("ReferenceType");
-                });
-
-            modelBuilder.Entity("TMS.Domain.Entities.ReferenceTypeLanguage", b =>
-                {
-                    b.Property<int>("ReferenceTypeLanguageID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReferenceTypeLanguageID"), 1L, 1);
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("LanguageID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReferenceTypeID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ReferenceTypeLanguageID");
-
-                    b.HasIndex("LanguageID");
-
-                    b.HasIndex("ReferenceTypeID");
-
-                    b.ToTable("ReferenceTypeLanguage");
                 });
 
             modelBuilder.Entity("TMS.Domain.Entities.Team", b =>
@@ -653,44 +577,6 @@ namespace TMS.Infrastructure.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("TMS.Domain.Entities.ReferenceLanguage", b =>
-                {
-                    b.HasOne("TMS.Domain.Entities.Language", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TMS.Domain.Entities.Reference", "Reference")
-                        .WithMany()
-                        .HasForeignKey("ReferenceID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Language");
-
-                    b.Navigation("Reference");
-                });
-
-            modelBuilder.Entity("TMS.Domain.Entities.ReferenceTypeLanguage", b =>
-                {
-                    b.HasOne("TMS.Domain.Entities.Language", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TMS.Domain.Entities.ReferenceType", "ReferenceType")
-                        .WithMany()
-                        .HasForeignKey("ReferenceTypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Language");
-
-                    b.Navigation("ReferenceType");
                 });
 
             modelBuilder.Entity("TMS.Domain.Entities.TeamProject", b =>

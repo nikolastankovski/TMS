@@ -12,15 +12,20 @@ namespace TMS.Infrastructure.Data
         { 
         }
 
-        public virtual DbSet<User> User { get; set; } = null!;
         public virtual DbSet<City> City { get; set; } = null!;
         public virtual DbSet<Company> Company { get; set; } = null!;
+        public virtual DbSet<CompanyProject> CompanyProject { get; set; } = null!;
         public virtual DbSet<Country> Country { get; set; } = null!;
         public virtual DbSet<Language> Language { get; set; } = null!;
         public virtual DbSet<Project> Project { get; set; } = null!;
         public virtual DbSet<Reference> Reference { get; set; } = null!;
+        public virtual DbSet<ReferenceLanguage> ReferenceLanguage { get; set; } = null!;
         public virtual DbSet<ReferenceType> ReferenceType { get; set; } = null!;
+        public virtual DbSet<ReferenceTypeLanguage> ReferenceTypeLanguage { get; set; } = null!;
         public virtual DbSet<Team> Team { get; set; } = null!;
+        public virtual DbSet<TeamProject> TeamProject { get; set; } = null!;
+        public virtual DbSet<User> User { get; set; } = null!;
+        public virtual DbSet<UserProject> UserProject { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
