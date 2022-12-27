@@ -1,0 +1,15 @@
+D:\Local Projects\TaskManagementSystem\TMS.Application\bin\Debug\net6.0\TMS.Application.deps.json
+D:\Local Projects\TaskManagementSystem\TMS.Application\bin\Debug\net6.0\TMS.Application.dll
+D:\Local Projects\TaskManagementSystem\TMS.Application\bin\Debug\net6.0\TMS.Application.pdb
+D:\Local Projects\TaskManagementSystem\TMS.Application\bin\Debug\net6.0\TMS.Domain.dll
+D:\Local Projects\TaskManagementSystem\TMS.Application\bin\Debug\net6.0\TMS.Domain.pdb
+D:\Local Projects\TaskManagementSystem\TMS.Application\obj\Debug\net6.0\TMS.Application.csproj.AssemblyReference.cache
+D:\Local Projects\TaskManagementSystem\TMS.Application\obj\Debug\net6.0\TMS.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Local Projects\TaskManagementSystem\TMS.Application\obj\Debug\net6.0\TMS.Application.AssemblyInfoInputs.cache
+D:\Local Projects\TaskManagementSystem\TMS.Application\obj\Debug\net6.0\TMS.Application.AssemblyInfo.cs
+D:\Local Projects\TaskManagementSystem\TMS.Application\obj\Debug\net6.0\TMS.Application.csproj.CoreCompileInputs.cache
+D:\Local Projects\TaskManagementSystem\TMS.Application\obj\Debug\net6.0\TMS.Application.csproj.CopyComplete
+D:\Local Projects\TaskManagementSystem\TMS.Application\obj\Debug\net6.0\TMS.Application.dll
+D:\Local Projects\TaskManagementSystem\TMS.Application\obj\Debug\net6.0\refint\TMS.Application.dll
+D:\Local Projects\TaskManagementSystem\TMS.Application\obj\Debug\net6.0\TMS.Application.pdb
+D:\Local Projects\TaskManagementSystem\TMS.Application\obj\Debug\net6.0\ref\TMS.Application.dll
