@@ -13,9 +13,11 @@ namespace TMS.Infrastructure.Data
         }
 
         public virtual DbSet<City> City { get; set; } = null!;
+        public virtual DbSet<CityLanguage> CityLanguage { get; set; } = null!;
         public virtual DbSet<Company> Company { get; set; } = null!;
         public virtual DbSet<CompanyProject> CompanyProject { get; set; } = null!;
         public virtual DbSet<Country> Country { get; set; } = null!;
+        public virtual DbSet<CountryLanguage> CountryLanguage { get; set; } = null!;
         public virtual DbSet<Language> Language { get; set; } = null!;
         public virtual DbSet<Project> Project { get; set; } = null!;
         public virtual DbSet<Reference> Reference { get; set; } = null!;

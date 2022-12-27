@@ -7,10 +7,6 @@ namespace TMS.Domain.Entities
         public int CountryID { get; set; }
 
         [DataType(DataType.Text)]
-        [StringLength(maximumLength: 255)]
-        public string Name { get; set; } = string.Empty;
-
-        [DataType(DataType.Text)]
         [StringLength(maximumLength: 10)]
         public string Code { get; set; } = string.Empty;
 
@@ -25,6 +21,5 @@ namespace TMS.Domain.Entities
 
         [StringLength(maximumLength: 10)]
         public string PhoneCode { get; set; } = string.Empty;
-        public int LanguageID { get; set; }
     }
 }
