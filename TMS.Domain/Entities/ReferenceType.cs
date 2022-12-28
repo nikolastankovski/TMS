@@ -8,9 +8,7 @@
         }
 
         public int ReferenceTypeId { get; set; }
-        public string Description { get; set; } = null!;
         public string Code { get; set; } = null!;
-        public int LanguageId { get; set; }
 
         public virtual ICollection<ReferenceTypeLanguage> ReferenceTypeLanguages { get; set; }
     }
