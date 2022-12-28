@@ -15,30 +15,26 @@ namespace TMS.Infrastructure.Repositories
             _context = context;
         }
 
-        /*public ReferenceLanguage? GetByRefIdAndLngId(int referenceId, int lngId)
+        public ReferenceLanguage? GetByRefIdAndLngId(int referenceId, int languageId)
         {
             ReferenceLanguage? entity = _context.ReferenceLanguage
-                                                        .Include(x => x.Reference)
-                                                        .Include(x => x.Language)
-                                                        .Where(x => x.Reference.ReferenceID == referenceId
-                                                                    && x.Language.LanguageID == lngId
-                                                        )
-                                                        .FirstOrDefault();
+                                                    .Where(x => x.ReferenceId == referenceId
+                                                                && x.LanguageId == languageId
+                                                    )
+                                                    .FirstOrDefault();
 
             return entity;
         }
 
-        public async Task<ReferenceLanguage?> GetByRefIdAndLngIdAsync(int referenceId, int lngId)
+        public async Task<ReferenceLanguage?> GetByRefIdAndLngIdAsync(int referenceId, int languageId)
         {
             ReferenceLanguage? entity = await _context.ReferenceLanguage
-                                                                    .Include(x => x.Reference)
-                                                                    .Include(x => x.Language)
-                                                                    .Where(x => x.Reference.ReferenceID == referenceId
-                                                                                && x.Language.LanguageID == lngId
-                                                                    )
-                                                                    .FirstOrDefaultAsync();
+                                                            .Where(x => x.ReferenceId == referenceId
+                                                                        && x.LanguageId == languageId
+                                                            )
+                                                            .FirstOrDefaultAsync();
 
             return entity;
-        }*/
+        }
     }
 }

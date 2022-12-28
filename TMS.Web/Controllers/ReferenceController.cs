@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Interfaces.Repositories;
 using TMS.Domain.DTO;
@@ -50,25 +51,22 @@ namespace TMS.Web.Controllers
         public async Task<IActionResult> Create(Reference reference, List<DTO_Language> languages)
         {
 
-            _refService.Create(reference, languages);
+            var create = _refService.Create(reference, languages);
             /*if (ModelState.IsValid)
             {
                 _refService._refRepo.Create(reference);
                 return RedirectToAction(nameof(Index));
             }*/
-            return View(reference);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Reference/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
 
-            var reference = await _refService._refRepo.GetByIdAsync(id);
-            if (reference == null)
-            {
-                return NotFound();
-            }
-            return View(reference);
+            var model = _refService.GetReferenceModel(referenceId: id);
+
+            return View(model);
         }
 
         // POST: Reference/Edit/5
@@ -76,25 +74,11 @@ namespace TMS.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReferenceID,ReferenceTypeId,Code,CreatedOn,CreatedBy,UpdatedOn,UpdatedBy,IsActive")] Reference reference)
+        public async Task<IActionResult> Edit(int id, Reference reference, List<DTO_Language> languages)
         {
-            if (id != reference.ReferenceId)
-            {
-                return NotFound();
-            }
+            var update = _refService.Edit(reference, languages);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _refService._refRepo.UpdateAsync(reference);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(reference);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

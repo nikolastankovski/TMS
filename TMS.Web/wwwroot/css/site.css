@@ -16,3 +16,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.center-item{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
