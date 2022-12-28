@@ -1,14 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace TMS.Domain.Entities
+﻿namespace TMS.Domain.Entities
 {
-    public class Reference : BaseEntity
+    public partial class Reference : BaseEntity
     {
-        public int ReferenceID { get; set; }
-        public int ReferenceTypeID { get; set; }
+        public Reference()
+        {
+            ReferenceLanguages = new HashSet<ReferenceLanguage>();
+        }
 
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 10)]
-        public string Code { get; set; } = string.Empty;
+        public int ReferenceId { get; set; }
+        public int ReferenceTypeId { get; set; }
+        public string Code { get; set; } = null!;
+
+        public virtual ICollection<ReferenceLanguage> ReferenceLanguages { get; set; }
     }
 }

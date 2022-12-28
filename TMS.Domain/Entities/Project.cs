@@ -1,17 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace TMS.Domain.Entities
+﻿namespace TMS.Domain.Entities
 {
-    public class Project : BaseEntity
+    public partial class Project : BaseEntity
     {
-        public int ProjectID { get; set; }
+        public Project()
+        {
+            CompanyProjects = new HashSet<CompanyProject>();
+            TeamProjects = new HashSet<TeamProject>();
+            UserProjects = new HashSet<UserProject>();
+        }
 
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 255)]
-        public string Name { get; set; } = string.Empty;
+        public int ProjectId { get; set; }
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
 
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 500)]
-        public string Description { get; set; } = string.Empty;
+        public virtual ICollection<CompanyProject> CompanyProjects { get; set; }
+        public virtual ICollection<TeamProject> TeamProjects { get; set; }
+        public virtual ICollection<UserProject> UserProjects { get; set; }
     }
 }

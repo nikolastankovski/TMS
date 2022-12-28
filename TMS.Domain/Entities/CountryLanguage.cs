@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TMS.Domain.Entities
+﻿namespace TMS.Domain.Entities
 {
-    public class CountryLanguage
+    public partial class CountryLanguage : BaseEntity
     {
-        public int CountryLanguageID { get; set; }
-        public virtual Country Country { get; set; } = new Country();
+        public int CountryLanguageId { get; set; }
+        public int CountryId { get; set; }
+        public string Name { get; set; } = null!;
+        public int LanguageId { get; set; }
 
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 255)]
-        public string Name { get; set; } = string.Empty;
-        public virtual Language Language { get; set; } = new Language();
-
+        public virtual Country Country { get; set; } = null!;
+        public virtual Language Language { get; set; } = null!;
     }
 }

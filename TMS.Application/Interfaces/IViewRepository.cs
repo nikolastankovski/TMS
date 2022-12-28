@@ -19,7 +19,7 @@ namespace TMS.Application.Interfaces
         );
         List<T> GetAll();
         Task<List<T>> GetAllAsync();
-        T? GetById(object id);
-        Task<T?> GetByIdAsync(object id);
+        T? GetById(object? id);
+        Task<T?> GetByIdAsync(object? id);
     }
 }

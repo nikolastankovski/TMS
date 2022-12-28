@@ -1,9 +1,12 @@
 ﻿namespace TMS.Domain.Entities
 {
-    public class CompanyProject : BaseEntity
+    public partial class CompanyProject : BaseEntity
     {
-        public int CompanyProjectID { get; set; }
-        public virtual Company Company { get; set; } = new Company();
-        public virtual Project Project { get; set; } = new Project();
+        public int CompanyProjectId { get; set; }
+        public int CompanyId { get; set; }
+        public int ProjectId { get; set; }
+
+        public virtual Company Company { get; set; } = null!;
+        public virtual Project Project { get; set; } = null!;
     }
 }

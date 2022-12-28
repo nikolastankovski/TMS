@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ReferenceTypeID)
+                @Html.DisplayNameFor(model => model.ReferenceTypeId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Code)
@@ -40,7 +40,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ReferenceTypeID)
+                @Html.DisplayFor(modelItem => item.ReferenceTypeId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Code)
@@ -61,9 +61,9 @@
                 @Html.DisplayFor(modelItem => item.IsActive)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ReferenceID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ReferenceID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ReferenceID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ReferenceId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ReferenceId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ReferenceId">Delete</a>
             </td>
         </tr>
 }

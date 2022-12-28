@@ -12,6 +12,7 @@ namespace TMS.Infrastructure.Data
         { 
         }
 
+        public virtual DbSet<AFile> AFile { get; set; } = null!;
         public virtual DbSet<City> City { get; set; } = null!;
         public virtual DbSet<CityLanguage> CityLanguage { get; set; } = null!;
         public virtual DbSet<Company> Company { get; set; } = null!;

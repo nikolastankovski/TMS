@@ -1,25 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace TMS.Domain.Entities
+﻿namespace TMS.Domain.Entities
 {
-    public class Country : BaseEntity
+    public partial class Country : BaseEntity
     {
-        public int CountryID { get; set; }
+        public Country()
+        {
+            Cities = new HashSet<City>();
+            CountryLanguages = new HashSet<CountryLanguage>();
+        }
 
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 10)]
-        public string Code { get; set; } = string.Empty;
+        public int CountryId { get; set; }
+        public string Code { get; set; } = null!;
+        public string Region { get; set; } = null!;
+        public string FlagUrl { get; set; } = null!;
+        public bool Eumember { get; set; }
+        public string PhoneCode { get; set; } = null!;
 
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 50)]
-        public string Region { get; set; } = string.Empty;
-
-        [DataType(DataType.Url)]
-        [StringLength(maximumLength: 255)]
-        public string FlagURL { get; set; } = string.Empty;
-        public bool EUMember { get; set; } = false;
-
-        [StringLength(maximumLength: 10)]
-        public string PhoneCode { get; set; } = string.Empty;
+        public virtual ICollection<City> Cities { get; set; }
+        public virtual ICollection<CountryLanguage> CountryLanguages { get; set; }
     }
 }

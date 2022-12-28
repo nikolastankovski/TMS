@@ -15,7 +15,7 @@ namespace TMS.Infrastructure.Repositories
             _context = context;
         }
 
-        public ReferenceLanguage? GetByRefIdAndLngId(int referenceId, int lngId)
+        /*public ReferenceLanguage? GetByRefIdAndLngId(int referenceId, int lngId)
         {
             ReferenceLanguage? entity = _context.ReferenceLanguage
                                                         .Include(x => x.Reference)
@@ -39,6 +39,6 @@ namespace TMS.Infrastructure.Repositories
                                                                     .FirstOrDefaultAsync();
 
             return entity;
-        }
+        }*/
     }
 }

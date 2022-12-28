@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Interfaces.Repositories;
+using TMS.Domain.DTO;
 using TMS.Domain.Entities;
 using TMS.Infrastructure.Services;
 
@@ -37,7 +38,7 @@ namespace TMS.Web.Controllers
         // GET: Reference/Create
         public IActionResult Create()
         {
-            var model = new Reference();
+            var model = _refService.GetReferenceModel();
             return View(model);
         }
 
@@ -46,13 +47,15 @@ namespace TMS.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReferenceID,ReferenceTypeID,Code,CreatedOn,CreatedBy,UpdatedOn,UpdatedBy,IsActive")] Reference reference)
+        public async Task<IActionResult> Create(Reference reference, List<DTO_Language> languages)
         {
-            if (ModelState.IsValid)
+
+            //_refService.Create(reference, languages);
+            /*if (ModelState.IsValid)
             {
                 _refService._refRepo.Create(reference);
                 return RedirectToAction(nameof(Index));
-            }
+            }*/
             return View(reference);
         }
 
@@ -73,9 +76,9 @@ namespace TMS.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReferenceID,ReferenceTypeID,Code,CreatedOn,CreatedBy,UpdatedOn,UpdatedBy,IsActive")] Reference reference)
+        public async Task<IActionResult> Edit(int id, [Bind("ReferenceID,ReferenceTypeId,Code,CreatedOn,CreatedBy,UpdatedOn,UpdatedBy,IsActive")] Reference reference)
         {
-            if (id != reference.ReferenceID)
+            if (id != reference.ReferenceId)
             {
                 return NotFound();
             }

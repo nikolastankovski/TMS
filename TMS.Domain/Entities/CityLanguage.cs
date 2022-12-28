@@ -1,15 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace TMS.Domain.Entities
+﻿namespace TMS.Domain.Entities
 {
-    public class CityLanguage
+    public partial class CityLanguage : BaseEntity
     {
-        public int CityLanguageID { get; set; }
-        public virtual City City { get; set; } = new City();
+        public int CityLanguageId { get; set; }
+        public int CityId { get; set; }
+        public string Name { get; set; } = null!;
+        public int LanguageId { get; set; }
 
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 255)]
-        public string Name { get; set; } = string.Empty;
-        public virtual Language Language { get; set; } = new Language();
+        public virtual City City { get; set; } = null!;
+        public virtual Language Language { get; set; } = null!;
     }
 }

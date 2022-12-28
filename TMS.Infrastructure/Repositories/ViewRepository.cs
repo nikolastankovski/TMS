@@ -83,7 +83,7 @@ namespace TMS.Infrastructure.Repositories
             return entities;
         }
 
-        public virtual T? GetById(object id)
+        public virtual T? GetById(object? id)
         {
             T? entity = _entity.Find(id);
             _context.ChangeTracker.Clear();
@@ -91,7 +91,7 @@ namespace TMS.Infrastructure.Repositories
             return entity;
         }
 
-        public virtual async Task<T?> GetByIdAsync(object id)
+        public virtual async Task<T?> GetByIdAsync(object? id)
         {
             T? entity = await _entity.FindAsync(id);
             _context.ChangeTracker.Clear();

@@ -1,21 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace TMS.Domain.Entities
+﻿namespace TMS.Domain.Entities
 {
-    public class Language : BaseEntity
+    public partial class Language : BaseEntity
     {
-        public int LanguageID { get; set; }
+        public Language()
+        {
+            CityLanguages = new HashSet<CityLanguage>();
+            CountryLanguages = new HashSet<CountryLanguage>();
+            ReferenceLanguages = new HashSet<ReferenceLanguage>();
+            ReferenceTypeLanguages = new HashSet<ReferenceTypeLanguage>();
+        }
 
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 255)]
-        public string DisplayName { get; set; } = string.Empty;
+        public int LanguageId { get; set; }
+        public string DisplayName { get; set; } = null!;
+        public string ShortName { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 10)]
-        public string ShortName { get; set; } = string.Empty;
-
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 10)]
-        public string Name { get; set; } = string.Empty;
+        public virtual ICollection<CityLanguage> CityLanguages { get; set; }
+        public virtual ICollection<CountryLanguage> CountryLanguages { get; set; }
+        public virtual ICollection<ReferenceLanguage> ReferenceLanguages { get; set; }
+        public virtual ICollection<ReferenceTypeLanguage> ReferenceTypeLanguages { get; set; }
     }
 }

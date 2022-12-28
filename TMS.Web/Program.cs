@@ -31,6 +31,7 @@ builder.Services.AddControllersWithViews();
     builder.Services.AddScoped<IReferenceLanguageRepository, ReferenceLanguageRepository>();
     builder.Services.AddScoped<IReferenceTypeRepository, ReferenceTypeRepository>();
     builder.Services.AddScoped<IReferenceTypeLanguageRepository, ReferenceTypeLanguageRepository>();
+    builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 #endregion
 
 var app = builder.Build();
