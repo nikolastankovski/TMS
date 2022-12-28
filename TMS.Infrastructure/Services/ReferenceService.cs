@@ -21,5 +21,36 @@ namespace TMS.Infrastructure.Services
             _refTypeLngRepo = refTypeLngRepo;
             _lngRepo = lngRepo;
         }
+
+        public DTO_Reference GetReferenceModel(int? referenceId = null)
+        {
+            var model = new DTO_Reference();
+
+            var reference = _refRepo.Get(filter: x => x.ReferenceId == referenceId, includeProperties: "ReferenceLanguages,ReferenceLanguages.Language").FirstOrDefault();
+
+            if (reference != null)
+            {
+                model.ReferenceTypeId = reference.ReferenceTypeId;
+                model.Code = reference.Code;
+                model.Languages = reference.ReferenceLanguages.Select(x => new DTO_Language() { Description = x.Description, DisplayName = x.Language.DisplayName, LanguageID = x.LanguageId }).ToList();
+            }
+            else
+            {
+                var languages = _lngRepo.GetAll();
+
+                model.Languages = languages.Select(x => new DTO_Language() { DisplayName = x.DisplayName, LanguageID = x.LanguageId }).ToList();
+            }
+
+            return model;
+        }
+
+        public void Create(Reference reference, List<DTO_Language> refLngs)
+        {
+            _refRepo.Create(reference);
+
+            var referenceLng = refLngs.Select(x => new ReferenceLanguage() { Description = x.Description, ReferenceId = reference.ReferenceId, LanguageId = x.LanguageID }).ToList();
+
+            _refLngRepo.Create(referenceLng);
+        }
     }
 }
