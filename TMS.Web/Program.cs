@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TMS.Application.Interfaces.Repositories;
 using TMS.Infrastructure.Data;
 using TMS.Infrastructure.Repositories;
+using TMS.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +22,15 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 
 builder.Services.AddControllersWithViews();
 
+#region SERVICES
+    builder.Services.AddScoped<ReferenceService>();
+#endregion
+
 #region REPOSITORIES
-    //builder.Services.AddScoped<IReferenceRepository, ReferenceRepository>();
-    builder.Services.AddScoped<ReferenceRepository>();
+    builder.Services.AddScoped<IReferenceRepository, ReferenceRepository>();
+    builder.Services.AddScoped<IReferenceLanguageRepository, ReferenceLanguageRepository>();
+    builder.Services.AddScoped<IReferenceTypeRepository, ReferenceTypeRepository>();
+    builder.Services.AddScoped<IReferenceTypeLanguageRepository, ReferenceTypeLanguageRepository>();
 #endregion
 
 var app = builder.Build();
