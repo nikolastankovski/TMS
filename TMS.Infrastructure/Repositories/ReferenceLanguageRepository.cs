@@ -18,6 +18,7 @@ namespace TMS.Infrastructure.Repositories
         public ReferenceLanguage? GetByRefIdAndLngId(int referenceId, int languageId)
         {
             ReferenceLanguage? entity = _context.ReferenceLanguage
+                                                    .Include(x => x.Reference)
                                                     .Where(x => x.ReferenceId == referenceId
                                                                 && x.LanguageId == languageId
                                                     )
@@ -29,12 +30,36 @@ namespace TMS.Infrastructure.Repositories
         public async Task<ReferenceLanguage?> GetByRefIdAndLngIdAsync(int referenceId, int languageId)
         {
             ReferenceLanguage? entity = await _context.ReferenceLanguage
+                                                            .Include(x => x.Reference)
                                                             .Where(x => x.ReferenceId == referenceId
                                                                         && x.LanguageId == languageId
                                                             )
                                                             .FirstOrDefaultAsync();
 
             return entity;
+        }
+
+        public List<ReferenceLanguage> GetByRefTypeIdAndLngId(int referenceTypeId, int languageId)
+        {
+            List<ReferenceLanguage> entities = _context.ReferenceLanguage
+                                                            .Include(x => x.Reference)
+                                                            .Where(x => x.Reference.ReferenceTypeId == referenceTypeId
+                                                                        && x.LanguageId == languageId
+                                                            )
+                                                            .ToList();
+
+            return entities;
+        }
+        public async Task<List<ReferenceLanguage>> GetByRefTypeIdAndLngIdAsync(int referenceTypeId, int languageId)
+        {
+            List<ReferenceLanguage> entities = await _context.ReferenceLanguage
+                                                                .Include(x => x.Reference)
+                                                                .Where(x => x.Reference.ReferenceTypeId == referenceTypeId
+                                                                            && x.LanguageId == languageId
+                                                                )
+                                                                .ToListAsync();
+
+            return entities;
         }
     }
 }

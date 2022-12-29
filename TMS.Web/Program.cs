@@ -24,6 +24,7 @@ builder.Services.AddControllersWithViews();
 
 #region SERVICES
     builder.Services.AddScoped<ReferenceService>();
+    builder.Services.AddScoped<ReferenceTypeService>();
 #endregion
 
 #region REPOSITORIES

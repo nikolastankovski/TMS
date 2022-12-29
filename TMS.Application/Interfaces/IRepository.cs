@@ -3,7 +3,7 @@ using TMS.Domain.CustomEntities;
 
 namespace TMS.Application.Interfaces
 {
-    public interface IRepository<T> : IViewRepository<T> where T : BaseEntity
+    public interface IRepository<T> : IViewRepository<T>where T : BaseEntity
     {
         ActionResponse Create(T entity);
         ActionResponse Create(List<T> entities);
@@ -19,6 +19,5 @@ namespace TMS.Application.Interfaces
         ActionResponse Update(List<T> entities);
         Task<ActionResponse> UpdateAsync(T entity);
         Task<ActionResponse> UpdateAsync(List<T> entities);
-
     }
 }

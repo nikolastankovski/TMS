@@ -2,9 +2,9 @@
 
 namespace TMS.Application.Interfaces.Repositories
 {
-    public interface IReferenceLanguageRepository : IRepository<ReferenceLanguage>
+    public interface IReferenceTypeLanguageRepository : IRepository<ReferenceTypeLanguage>
     {
-        ReferenceLanguage? GetByRefIdAndLngId(int referenceId, int languageId);
-        Task<ReferenceLanguage?> GetByRefIdAndLngIdAsync(int referenceId, int languageId);
+        ReferenceTypeLanguage? GetByRefTypeIdAndLngId(int referenceTypeId, int languageId);
+        Task<ReferenceTypeLanguage?> GetByRefTypeIdAndLngIdAsync(int referenceTypeId, int languageId);
     }
 }

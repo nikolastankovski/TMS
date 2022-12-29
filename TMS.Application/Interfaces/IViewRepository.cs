@@ -17,8 +17,8 @@ namespace TMS.Application.Interfaces
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             string includeProperties = ""
         );
-        List<T> GetAll();
-        Task<List<T>> GetAllAsync();
+        List<T> GetAll(bool? isActive = null);
+        Task<List<T>> GetAllAsync(bool? isActive = null);
         T? GetById(object? id);
         Task<T?> GetByIdAsync(object? id);
     }

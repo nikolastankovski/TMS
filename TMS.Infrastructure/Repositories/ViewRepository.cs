@@ -67,17 +67,17 @@ namespace TMS.Infrastructure.Repositories
             return entities;
         }
 
-        public virtual List<T> GetAll()
+        public virtual List<T> GetAll(bool? isActive = null)
         {
-            List<T> entities = _entity.AsQueryable().ToList();
+            List<T> entities = _entity.Where(x => isActive == null || x.IsActive == isActive).ToList();
             _context.ChangeTracker.Clear();
 
             return entities;
         }
 
-        public virtual async Task<List<T>> GetAllAsync()
+        public virtual async Task<List<T>> GetAllAsync(bool? isActive = null)
         {
-            List<T> entities = await _entity.AsQueryable().ToListAsync();
+            List<T> entities = await _entity.Where(x => isActive == null || x.IsActive == isActive).ToListAsync();
             _context.ChangeTracker.Clear();
 
             return entities;

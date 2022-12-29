@@ -1,0 +1,50 @@
+﻿@model TMS.Domain.DTO.DTO_ReferenceType
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="col-md-6 col-12">
+        <div class="form-floating mb-3">
+            <input asp-for="Code" class="form-control" placeholder="asd">
+            <label asp-for="Code"></label>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-12">
+        <table class="table table-borderless">
+            @*<thead>
+            <tr>
+            <th>Јазик</th>
+            <th>Опис</th>
+            </tr>
+            </thead>*@
+            <tbody>
+                @for (int i = 0; i < Model.Languages.Count; i++)
+                {
+                    <input type="hidden" asp-for="Languages[i].LanguageID">
+                    <tr>
+                        <th style="vertical-align: middle">
+                            @Model.Languages[i].DisplayName
+                        </th>
+                        <td>
+                            <div class="form-floating">
+                                <input asp-for="Languages[i].Description" class="form-control" placeholder="asd">
+                                <label asp-for="Languages[i].Description"></label>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center">
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
