@@ -6,7 +6,7 @@ using TMS.Application.Interfaces;
 using TMS.Domain;
 using TMS.Infrastructure.Data;
 
-namespace TMS.Infrastructure.Repositories
+namespace TMS.Infrastructure.Repositories.BaseRepositories
 {
     public class ViewRepository<T> : IViewRepository<T> where T : BaseEntity
     {
@@ -101,7 +101,7 @@ namespace TMS.Infrastructure.Repositories
 
         public virtual List<T> Paginate(List<T>? entities = null, int itemsPerPage = 20, int page = 1)
         {
-            if(entities == null)
+            if (entities == null)
                 return new List<T>();
 
             int skip = (page - 1) * itemsPerPage;

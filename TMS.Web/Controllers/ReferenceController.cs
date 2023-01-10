@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using TMS.Application.Interfaces.Repositories;
 using TMS.Domain.DTO;
 using TMS.Domain.Entities;
 using TMS.Infrastructure.Services;
@@ -37,9 +34,9 @@ namespace TMS.Web.Controllers
         }
 
         // GET: Reference/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var model = _refService.GetReferenceModel();
+            var model = await _refService.GetModelAsync();
             return View(model);
         }
 
@@ -51,12 +48,8 @@ namespace TMS.Web.Controllers
         public async Task<IActionResult> Create(Reference reference, List<DTO_Language> languages)
         {
 
-            var create = _refService.Create(reference, languages);
-            /*if (ModelState.IsValid)
-            {
-                _refService._refRepo.Create(reference);
-                return RedirectToAction(nameof(Index));
-            }*/
+            var create = await _refService.CreateAsync(reference, languages);
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -64,7 +57,7 @@ namespace TMS.Web.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
 
-            var model = _refService.GetReferenceModel(referenceId: id);
+            var model = await _refService.GetModelAsync(referenceId: id);
 
             return View(model);
         }
@@ -76,7 +69,7 @@ namespace TMS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Reference reference, List<DTO_Language> languages)
         {
-            var update = _refService.Edit(reference, languages);
+            var update = await _refService.EditAsync(reference, languages);
 
             return RedirectToAction(nameof(Index));
         }

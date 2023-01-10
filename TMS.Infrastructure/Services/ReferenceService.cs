@@ -1,4 +1,5 @@
-﻿using TMS.Application.Interfaces.Repositories;
+﻿using System.Transactions;
+using TMS.Application.Interfaces.Repositories;
 using TMS.Domain.DTO;
 using TMS.Domain.Entities;
 
@@ -17,95 +18,140 @@ namespace TMS.Infrastructure.Services
             _lngRepo = lngRepo;
         }
 
-        public DTO_Reference GetReferenceModel(int? referenceId = null)
+        public async Task<DTO_Reference> GetModelAsync(int? referenceId = null)
         {
             var model = new DTO_Reference();
+            var languages = await _lngRepo.GetAllAsync();
 
-            var reference = _refRepo.Get(filter: x => x.ReferenceId == referenceId, includeProperties: "ReferenceLanguages,ReferenceLanguages.Language").FirstOrDefault();
+            var getReference = await _refRepo.GetAsync(filter: x => x.ReferenceId == referenceId, includeProperties: "ReferenceLanguages,ReferenceLanguages.Language");
+            var reference = getReference.FirstOrDefault();
 
             if (reference != null)
             {
                 model.ReferenceId = reference.ReferenceId;
                 model.ReferenceTypeId = reference.ReferenceTypeId;
                 model.Code = reference.Code;
+
+                languages.TryGetNonEnumeratedCount(out int countLng);
+                reference.ReferenceLanguages.TryGetNonEnumeratedCount(out int countRefLng);
+
                 model.Languages = reference.ReferenceLanguages.Select(x => new DTO_Language() { Description = x.Description, DisplayName = x.Language.DisplayName, LanguageID = x.LanguageId }).ToList();
+
+                if (countLng != countRefLng)
+                {
+                    var existingLngsIds = reference.ReferenceLanguages.Select(x => x.LanguageId).ToList();
+                    var missingLanguages = languages.Where(x => !existingLngsIds.Contains(x.LanguageId)).ToList();
+
+                    if (missingLanguages.Count > 0)
+                    {
+                        var dtoLngs = missingLanguages.Select(x => new DTO_Language() { DisplayName = x.DisplayName, LanguageID = x.LanguageId }).ToList();
+                        model.Languages.AddRange(dtoLngs);
+                    }
+                }
             }
             else
             {
-                var languages = _lngRepo.GetAll();
                 model.Languages = languages.Select(x => new DTO_Language() { DisplayName = x.DisplayName, LanguageID = x.LanguageId }).ToList();
             }
 
             return model;
         }
 
-        public bool Create(Reference reference, List<DTO_Language> refLngs)
+        public async Task<bool> CreateAsync(Reference reference, List<DTO_Language> refLanguages)
         {
             if (reference == null)
                 return false;
 
-            refLngs.TryGetNonEnumeratedCount(out int count);
-            if (refLngs == null || count == 0)
+            refLanguages.TryGetNonEnumeratedCount(out int count);
+            if (refLanguages == null || count == 0)
                 return false;
 
-            var createReference = _refRepo.Create(reference);
+            using(var t = new TransactionScope())
+            {
+                var createReference = await _refRepo.CreateAsync(reference);
 
-            if(!createReference.IsSuccess)
-                return false;
+                if (!createReference.IsSuccess)
+                {
+                    t.Dispose();
+                    return false;
+                }
 
-            var referenceLng = refLngs.Select(x => new ReferenceLanguage() { Description = x.Description, ReferenceId = reference.ReferenceId, LanguageId = x.LanguageID }).ToList();
+                var referenceLng = refLanguages.Select(x => new ReferenceLanguage() { Description = x.Description, ReferenceId = reference.ReferenceId, LanguageId = x.LanguageID }).ToList();
+                var createRefLng = await _refLngRepo.CreateAsync(referenceLng);
 
-            var createRefLng = _refLngRepo.Create(referenceLng);
+                if (!createRefLng.IsSuccess)
+                {
+                    t.Dispose();
+                    return false;
+                }
 
-            return true;
+                t.Complete();
+                return true;
+            }           
         }
 
-        public bool Edit(Reference reference, List<DTO_Language> referenceLangugeages)
+        public async Task<bool> EditAsync(Reference reference, List<DTO_Language> refLanguages)
         {
             if (reference == null)
                 return false;
 
-            var oldReference = _refRepo.GetById(reference.ReferenceId);
+            var oldReference = await _refRepo.GetByIdAsync(reference.ReferenceId);
 
-            if(oldReference != null)
+            using(var t = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                oldReference.ReferenceTypeId = reference.ReferenceTypeId;
-                oldReference.Code = reference.Code;
 
-                var updateReference = _refRepo.Update(oldReference);
-
-                if (!updateReference.IsSuccess)
-                    return false;
-            }
-
-            referenceLangugeages.TryGetNonEnumeratedCount(out int count);
-            if (referenceLangugeages == null || count == 0)
-                return false;
-
-            foreach(var lng in referenceLangugeages)
-            {
-                var oldRefLng = _refLngRepo.GetByRefIdAndLngId(referenceId: oldReference.ReferenceId, languageId: lng.LanguageID);
-
-                if(oldRefLng == null)
+                if (oldReference != null)
                 {
-                    ReferenceLanguage refLng = new ReferenceLanguage()
+                    oldReference.ReferenceTypeId = reference.ReferenceTypeId;
+                    oldReference.Code = reference.Code;
+
+                    var updateReference = await _refRepo.UpdateAsync(oldReference);
+
+                    if (!updateReference.IsSuccess)
                     {
-                        ReferenceId = oldReference.ReferenceId,
-                        LanguageId = lng.LanguageID,
-                        Description = lng.Description
-                    };
-
-                    var createRefLng = _refLngRepo.Create(refLng);
+                        t.Dispose();
+                        return false;
+                    }
                 }
-                else
+
+                foreach (var lng in refLanguages)
                 {
-                    oldRefLng.Description = lng.Description;
+                    var oldRefLng = await _refLngRepo.GetByRefIdAndLngIdAsync(referenceId: oldReference.ReferenceId, languageId: lng.LanguageID);
 
-                    var updateRefLng = _refLngRepo.Update(oldRefLng);
+                    if (oldRefLng == null)
+                    {
+                        ReferenceLanguage refLng = new ReferenceLanguage()
+                        {
+                            ReferenceId = oldReference.ReferenceId,
+                            LanguageId = lng.LanguageID,
+                            Description = lng.Description
+                        };
+
+                        var createRefLng = await _refLngRepo.CreateAsync(refLng);
+
+                        if(!createRefLng.IsSuccess)
+                        {
+                            t.Dispose();
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        oldRefLng.Description = lng.Description;
+
+                        var updateRefLng = await _refLngRepo.UpdateAsync(oldRefLng);
+
+                        if (!updateRefLng.IsSuccess)
+                        {
+                            t.Dispose();
+                            return false;
+                        }
+                    }
                 }
-            }
 
-            return true;
+                t.Complete();
+                return true;
+            }
         }
     }
 }

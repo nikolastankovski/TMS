@@ -5,9 +5,8 @@ using TMS.Domain;
 using TMS.Domain.Constants;
 using TMS.Domain.CustomEntities;
 using TMS.Infrastructure.Data;
-using TMS.Infrastructure.Repositories;
 
-namespace TMS.Repositories
+namespace TMS.Infrastructure.Repositories.BaseRepositories
 {
     public class Repository<T> : ViewRepository<T>, IRepository<T> where T : BaseEntity
     {
@@ -15,7 +14,7 @@ namespace TMS.Repositories
         internal new DbSet<T> _entity;
         protected new readonly ILogger<T> _logger;
 
-        public Repository(TMSDbContext context, ILogger<T> logger) : base( context, logger )
+        public Repository(TMSDbContext context, ILogger<T> logger) : base(context, logger)
         {
             _context = context;
             _entity = _context.Set<T>();
@@ -107,7 +106,7 @@ namespace TMS.Repositories
         {
             T? entity = GetById(id);
 
-            if(entity == null)
+            if (entity == null)
                 return new ActionResponse() { IsSuccess = false, Message = RepoMessage.EntityNotFound };
 
             try
@@ -128,7 +127,7 @@ namespace TMS.Repositories
             List<T> entities = new List<T>();
             List<long> missingEntities = new List<long>();
 
-            foreach(var id in ids)
+            foreach (var id in ids)
             {
                 T? entity = GetById(id);
 
@@ -224,7 +223,7 @@ namespace TMS.Repositories
 
             try
             {
-                entity.UpdatedOn= DateTime.Now;
+                entity.UpdatedOn = DateTime.Now;
                 _entity.Update(entity);
                 _context.SaveChanges();
 
