@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace TMS.Infrastructure.Services
+namespace TMS.Infrastructure.Services.HelperServices
 {
     public class CookieService
     {
@@ -15,7 +15,7 @@ namespace TMS.Infrastructure.Services
         {
             try
             {
-                if(_accessor.HttpContext == null)
+                if (_accessor.HttpContext == null)
                     return false;
 
                 _accessor.HttpContext.Response.Cookies.Append(

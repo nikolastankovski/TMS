@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Text;
 
-namespace DataAccess.Services
+namespace TMS.Infrastructure.Services.HelperServices
 {
     public class SessionService
     {
@@ -23,7 +23,7 @@ namespace DataAccess.Services
                 if (_accessor.HttpContext == null)
                     return false;
 
-                if(typeof(T).BaseType.Name == "Object")
+                if (typeof(T).BaseType.Name == "Object")
                 {
                     _accessor.HttpContext.Session.SetString(key, JsonConvert.SerializeObject(value));
                     return true;
@@ -45,7 +45,7 @@ namespace DataAccess.Services
             try
             {
                 if (_accessor.HttpContext == null)
-                    return default(T);
+                    return default;
 
                 var value = _accessor.HttpContext.Session.GetString(key);
 
@@ -59,7 +59,7 @@ namespace DataAccess.Services
             }
             catch (Exception)
             {
-                return default(T);
+                return default;
             }
         }
 

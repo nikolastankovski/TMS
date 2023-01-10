@@ -7,9 +7,9 @@ using Postal;
 using System.Net;
 using System.Net.Mail;
 
-namespace TMS.Infrastructure.Services
+namespace TMS.Infrastructure.Services.HelperServices
 {
-    public class MessageModel : Postal.Email
+    public class MessageModel : Email
     {
         protected MessageModel() : base()
         {
@@ -173,7 +173,7 @@ namespace TMS.Infrastructure.Services
             emailData.ViewData["Username"] = model.Username;
             emailData.ViewData["Callback"] = model.Callback;
 
-            if(model.Attachments.Count > 0)
+            if (model.Attachments.Count > 0)
                 emailData.Attachments = model.Attachments;
 
             MailMessage message = await _emailService.CreateMailMessageAsync(emailData);
@@ -184,7 +184,7 @@ namespace TMS.Infrastructure.Services
 
         public RequestPath PostalRequest(HttpRequest Request)
         {
-            var requestPath = new Postal.RequestPath();
+            var requestPath = new RequestPath();
             requestPath.PathBase = Request.PathBase.ToString();
             requestPath.Host = Request.Host.ToString();
             requestPath.IsHttps = Request.IsHttps;

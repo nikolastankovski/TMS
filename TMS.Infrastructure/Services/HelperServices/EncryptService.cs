@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.DataProtection;
 using System;
 
-namespace TMS.Infrastructure.Services
+namespace TMS.Infrastructure.Services.HelperServices
 {
     public class EncryptService
     {
@@ -31,7 +31,7 @@ namespace TMS.Infrastructure.Services
             }
             catch (Exception)
             {
-                return default(T);
+                return default;
             }
         }
     }
